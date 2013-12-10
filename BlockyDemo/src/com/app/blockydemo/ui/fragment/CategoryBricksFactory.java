@@ -88,16 +88,10 @@ public class CategoryBricksFactory {
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 		if (category.equals(context.getString(R.string.category_control))) {
 			return setupControlCategoryList(sprite, context);
-		} else if (category.equals(context.getString(R.string.category_motion))) {
-			return setupMotionCategoryList(sprite);
-		} else if (category.equals(context.getString(R.string.category_sound))) {
-			return setupSoundCategoryList(sprite, context);
-		} else if (category.equals(context.getString(R.string.category_looks))) {
-			return setupLooksCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_variables))) {
 			return setupVariablesCategoryList(sprite);
-		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			return setupLegoNxtCategoryList(sprite);
+		}else if (category.equals(context.getString(R.string.category_math))) {
+			return setupMathCategoryList(sprite);
 		}
 
 		return new ArrayList<Brick>();
@@ -107,14 +101,7 @@ public class CategoryBricksFactory {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(sprite, null));
 		controlBrickList.add(new WhenBrick(sprite, null));
-		controlBrickList.add(new WaitBrick(sprite, BrickValues.WAIT));
 
-		final String broadcastMessage = MessageContainer.getFirst(context);
-		controlBrickList.add(new BroadcastReceiverBrick(sprite, broadcastMessage));
-		controlBrickList.add(new BroadcastBrick(sprite, broadcastMessage));
-		controlBrickList.add(new BroadcastWaitBrick(sprite, broadcastMessage));
-
-		controlBrickList.add(new NoteBrick(sprite, context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
 		controlBrickList.add(new RepeatBrick(sprite, BrickValues.REPEAT));
@@ -122,7 +109,7 @@ public class CategoryBricksFactory {
 		return controlBrickList;
 	}
 
-	private List<Brick> setupMotionCategoryList(Sprite sprite) {
+	private List<Brick> setupMathCategoryList(Sprite sprite) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();
 		motionBrickList.add(new PlaceAtBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(sprite, BrickValues.X_POSITION));
