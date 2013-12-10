@@ -36,6 +36,7 @@ import android.widget.ListAdapter;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
+import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.formulaeditor.SensorHandler;
 import com.app.blockydemo.ui.adapter.BrickAdapter;
 import com.app.blockydemo.ui.adapter.ScriptActivityAdapterInterface;
@@ -46,7 +47,9 @@ import com.app.blockydemo.ui.fragment.FormulaEditorVariableListFragment;
 import com.app.blockydemo.ui.fragment.ScriptActivityFragment;
 import com.app.blockydemo.ui.fragment.ScriptFragment;
 
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
+
 
 public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
@@ -90,6 +93,17 @@ public class ScriptActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
+		ProjectManager projectManager = ProjectManager.getInstance();
+		//create project
+		try {
+			projectManager.initializeNewProject("test", this, false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Sprite sprite = new Sprite("Back");
+		projectManager.addSprite(sprite);
+		projectManager.setCurrentSprite(sprite);
+		
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		currentFragmentPosition = FRAGMENT_SCRIPTS;

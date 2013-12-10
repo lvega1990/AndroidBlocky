@@ -55,7 +55,7 @@ public final class ProjectManager {
 
 
 	public void initializeNewProject(String projectName, Context context, boolean empty) throws IOException {
-		project = null;
+		project = new Project(context, projectName);
 		currentSprite = null;
 		currentScript = null;
 	}
@@ -72,9 +72,6 @@ public final class ProjectManager {
 	}
 
 	public Sprite getCurrentSprite() {
-		if (currentScript==null){
-			currentSprite = new Sprite("test");
-		}
 		return currentSprite;
 	}
 
