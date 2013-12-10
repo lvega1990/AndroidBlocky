@@ -51,10 +51,6 @@ import com.app.blockydemo.content.Project;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.content.actions.ExtendedActions;
-import com.app.blockydemo.ui.ProgramMenuActivity;
-import com.app.blockydemo.ui.ScriptActivity;
-import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
-import com.app.blockydemo.ui.dialogs.NewSpriteDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -352,8 +348,6 @@ public class PointToBrick extends BrickBaseType {
 		}
 
 		protected void showNewSpriteDialog() {
-			NewSpriteDialog dialog = new NewSpriteDialog(this);
-			dialog.show(((ScriptActivity) context).getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 		}
 
 		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {
@@ -366,35 +360,6 @@ public class PointToBrick extends BrickBaseType {
 
 			setSpinnerSelection(spinner);
 
-			AlertDialog dialog = new CustomAlertDialogBuilder(context)
-					.setTitle(R.string.dialog_new_object_switch_title)
-					.setMessage(R.string.dialog_new_object_switch_message)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							ProjectManager.getInstance().setCurrentSprite(pointedObject);
-
-							Intent intent = new Intent(context, ProgramMenuActivity.class);
-							intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY,
-									ScriptActivity.FRAGMENT_SCRIPTS);
-							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-							context.startActivity(intent);
-
-							dialog.dismiss();
-						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							spinnerAdapter.notifyDataSetChanged();
-							dialog.dismiss();
-						}
-					}).create();
-			dialog.setCanceledOnTouchOutside(true);
-			dialog.show();
 		}
 
 		public void updateSpinner() {

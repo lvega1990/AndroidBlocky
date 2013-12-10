@@ -31,8 +31,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import com.app.blockydemo.R;
+import com.app.blockydemo.formulaeditor.UserVariable;
 
 public class UserVariableAdapterWrapper extends BaseAdapter {
 

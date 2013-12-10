@@ -22,7 +22,7 @@
  */
 package com.app.blockydemo.ui.dialogs;
 
-import com.app.blockydemo.ScriptActivity;
+import com.app.blockydemo.ui.ScriptActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,4 +59,5 @@ public abstract class BrickTextDialog extends TextDialog {
 		super.onOkButtonHandled();
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
+
 }

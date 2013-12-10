@@ -27,23 +27,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
 
-import org.catrobat.catroid.R;
+import com.app.blockydemo.R;
 
-public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
+public class FormulaEditorListFragment extends ListFragment implements Dialog.OnKeyListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String MATH_TAG = "mathFragment";
@@ -89,7 +89,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getSupportFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addResourceToActiveFormula(itemsIds[position]);
@@ -140,9 +140,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+		getActivity().getActionBar().setTitle(actionBarTitle);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -154,7 +154,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	}
 
 	public void showFragment(Context context) {
-		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+		FragmentActivity activity = (FragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 		Fragment formulaEditorFragment = fragmentManager
@@ -172,10 +172,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
-				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
+				FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragTransaction.hide(this);
-				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
+				fragTransaction.show(getActivity().getSupportFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 				fragTransaction.commit();
 				returnValue = true;

@@ -25,7 +25,7 @@
     android:id="@+id/variablelist_global_headline"
     style="@style/headlineLinearLayout" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
+    <com.app.blockydemo.ui.CapitalizedTextView
         style="@style/headlineTextView"
         android:text="@string/formula_editor_variable_dialog_for_all_sprites" />
 

@@ -22,9 +22,11 @@
  */
 package com.app.blockydemo.ui.fragment;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import android.support.v4.app.ListFragment;
 
-public abstract class ScriptActivityFragment extends SherlockListFragment {
+
+
+public abstract class ScriptActivityFragment extends ListFragment {
 
 	protected boolean actionModeActive = false;
 

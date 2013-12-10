@@ -24,6 +24,7 @@ package com.app.blockydemo.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -152,8 +153,8 @@ public class NoteBrick extends BrickBaseType {
 						return getString(R.string.dialog_edit_note_title);
 					}
 				};
-
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
+				FragmentManager fg = activity.getSupportFragmentManager(); 
+				editDialog.show(fg, "dialog_note_brick");
 			}
 		});
 

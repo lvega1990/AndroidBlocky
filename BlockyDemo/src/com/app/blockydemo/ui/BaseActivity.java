@@ -23,13 +23,13 @@
 package com.app.blockydemo.ui;
 
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
 
 	@Override

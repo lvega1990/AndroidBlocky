@@ -72,6 +72,9 @@ public final class ProjectManager {
 	}
 
 	public Sprite getCurrentSprite() {
+		if (currentScript==null){
+			currentSprite = new Sprite("test");
+		}
 		return currentSprite;
 	}
 

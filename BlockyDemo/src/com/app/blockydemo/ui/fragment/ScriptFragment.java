@@ -34,33 +34,37 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.DeadEndBrick;
-import org.catrobat.catroid.content.bricks.NestingBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
-import org.catrobat.catroid.utils.Utils;
+import com.app.blockydemo.ProjectManager;
+import com.app.blockydemo.R;
+import com.app.blockydemo.common.Constants;
+import com.app.blockydemo.content.Script;
+import com.app.blockydemo.content.Sprite;
+import com.app.blockydemo.content.bricks.AllowedAfterDeadEndBrick;
+import com.app.blockydemo.content.bricks.Brick;
+import com.app.blockydemo.content.bricks.DeadEndBrick;
+import com.app.blockydemo.content.bricks.NestingBrick;
+import com.app.blockydemo.content.bricks.ScriptBrick;
+import com.app.blockydemo.ui.BottomBar;
+import com.app.blockydemo.ui.ScriptActivity;
+import com.app.blockydemo.ui.ViewSwitchLock;
+import com.app.blockydemo.ui.adapter.BrickAdapter;
+import com.app.blockydemo.ui.adapter.BrickAdapter.OnBrickCheckedListener;
+import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
+import com.app.blockydemo.ui.dialogs.DeleteLookDialog;
+import com.app.blockydemo.ui.dragndrop.DragAndDropListView;
+import com.app.blockydemo.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import com.app.blockydemo.utils.Utils;
 
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -114,18 +118,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 
-		menu.findItem(R.id.show_details).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.backpack).setVisible(false);
-		menu.findItem(R.id.unpacking).setVisible(false);
-
 		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.copy).setVisible(true);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -162,7 +159,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
 			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
@@ -203,7 +199,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
-		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
+		getActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -271,7 +267,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
-		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
+		actionMode = getActivity().startActionMode(actionModeCallback);
 
 		for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 			adapter.getView(i, null, getListView());
@@ -360,7 +356,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -394,7 +390,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -454,7 +450,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		adapter.addNewBrick(newPosition, copy, false);
 		adapter.initBrickList();
 
-		ProjectManager.getInstance().saveProject();
 		adapter.notifyDataSetChanged();
 	}
 

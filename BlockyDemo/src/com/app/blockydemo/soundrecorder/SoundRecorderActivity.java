@@ -52,28 +52,10 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_soundrecorder);
-
-		recordButton = (ImageButton) findViewById(R.id.soundrecorder_record_button);
-		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
-		recordButton.setOnClickListener(this);
-		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.soundrecorder_record_button) {
-			if (soundRecorder != null && soundRecorder.isRecording()) {
-				stopRecording();
-				timeRecorderChronometer.stop();
-				finish();
-			} else {
-				startRecording();
-				long currentPlayingBase = SystemClock.elapsedRealtime();
-				timeRecorderChronometer.setBase(currentPlayingBase);
-				timeRecorderChronometer.start();
-			}
-		}
 	}
 
 	@Override
@@ -86,24 +68,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		if (soundRecorder != null && soundRecorder.isRecording()) {
 			return;
 		}
-		try {
-			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENSION);
-			soundRecorder = new SoundRecorder(recordPath);
-			soundRecorder.start();
-			setViewsToRecordingState();
-		} catch (IOException e) {
-			Log.e(TAG, "Error recording sound.", e);
-			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
-		} catch (IllegalStateException e) {
-			// app would crash if other app uses mic, catch IllegalStateException and display Toast
-			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
-			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
-		}
 	}
 
 	private void setViewsToRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_microphone_active);
 	}
 
 	private synchronized void stopRecording() {
@@ -117,13 +84,11 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			Log.e("CATROID", "Error recording sound.", e);
-			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 			setResult(Activity.RESULT_CANCELED);
 		}
 	}
 
 	private void setViewsToNotRecordingState() {
-		recordButton.setImageResource(R.drawable.ic_microphone);
 	}
 
 }

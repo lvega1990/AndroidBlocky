@@ -24,10 +24,10 @@ package com.app.blockydemo.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-import org.catrobat.catroid.content.Sprite;
+import com.app.blockydemo.ProjectManager;
+import com.app.blockydemo.content.BroadcastEvent;
+import com.app.blockydemo.content.BroadcastEvent.BroadcastType;
+import com.app.blockydemo.content.Sprite;
 
 import java.util.List;
 

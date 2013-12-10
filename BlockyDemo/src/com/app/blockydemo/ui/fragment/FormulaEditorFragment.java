@@ -24,7 +24,6 @@ package com.app.blockydemo.ui.fragment;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +31,11 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,16 +49,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InternFormulaParser;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
+import com.app.blockydemo.R;
+import com.app.blockydemo.content.bricks.Brick;
+import com.app.blockydemo.formulaeditor.Formula;
+import com.app.blockydemo.formulaeditor.FormulaEditorEditText;
+import com.app.blockydemo.formulaeditor.FormulaElement;
+import com.app.blockydemo.formulaeditor.InternFormulaParser;
+import com.app.blockydemo.ui.BottomBar;
+import com.app.blockydemo.ui.ScriptActivity;
+import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
+import com.app.blockydemo.ui.dialogs.FormulaEditorComputeDialog;
 
 public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -102,13 +105,13 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(R.string.formula_editor_title);
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getActivity().getActionBar();
 		actionBar.setTitle("");
 	}
 
@@ -172,7 +175,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText.endEdit();
 		currentFormula.prepareToRemove();
 
-		FragmentActivity activity = getSherlockActivity();
+		FragmentActivity activity = getActivity();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 		fragTransaction.hide(this);
@@ -507,7 +510,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
-		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getSherlockActivity());
+		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getActivity());
 		((FormulaEditorVariableListFragment) fragment).showFragment(context);
 	}
 
@@ -565,7 +568,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	public void updateButtonViewOnKeyboard() {
 
-		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
+		ImageButton undo = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_undo);
 		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setImageResource(R.drawable.icon_undo_disabled);
 			undo.setEnabled(false);
@@ -574,7 +577,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			undo.setEnabled(true);
 		}
 
-		ImageButton redo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
+		ImageButton redo = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_redo);
 		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setImageResource(R.drawable.icon_redo_disabled);
 			redo.setEnabled(false);
@@ -583,7 +586,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			redo.setEnabled(true);
 		}
 
-		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspace = (ImageButton) getActivity().findViewById(R.id.formula_editor_edit_field_clear);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspace.setImageResource(R.drawable.icon_backspace_disabled);
 			backspace.setEnabled(false);

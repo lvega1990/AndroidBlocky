@@ -25,6 +25,7 @@ package com.app.blockydemo.content.bricks;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +38,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.ProjectManager;
@@ -143,7 +143,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 							&& ((Spinner) view).getAdapter().getCount() == 1) {
 						NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 						dialog.addVariableDialogListener(ChangeVariableBrick.this);
-						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+						dialog.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(),
 								NewVariableDialog.DIALOG_FRAGMENT_TAG);
 						return true;
 					}
@@ -158,7 +158,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewVariableDialog dialog = new NewVariableDialog((Spinner) parent);
 					dialog.addVariableDialogListener(ChangeVariableBrick.this);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewVariableDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();

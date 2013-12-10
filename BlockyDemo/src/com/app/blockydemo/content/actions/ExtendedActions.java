@@ -22,16 +22,18 @@
  */
 package com.app.blockydemo.content.actions;
 
-import com.app.blockydemo.content.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import com.app.blockydemo.common.LookData;
+import com.app.blockydemo.common.SoundInfo;
+import com.app.blockydemo.content.BroadcastEvent;
+import com.app.blockydemo.content.BroadcastEvent.BroadcastType;
+import com.app.blockydemo.content.Sprite;
+import com.app.blockydemo.content.bricks.SpeakBrick;
+import com.app.blockydemo.formulaeditor.Formula;
+import com.app.blockydemo.formulaeditor.UserVariable;
 
 public class ExtendedActions extends Actions {
 
@@ -153,7 +155,7 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
+			com.app.blockydemo.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -162,14 +164,14 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static LegoNxtMotorStopAction legoNxtMotorStop(
-			org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
+			com.app.blockydemo.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
 		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}
 
 	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+			com.app.blockydemo.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);

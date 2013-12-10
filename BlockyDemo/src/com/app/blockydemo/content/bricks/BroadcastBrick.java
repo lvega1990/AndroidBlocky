@@ -51,7 +51,6 @@ import java.util.List;
 
 public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
-
 	private String broadcastMessage;
 	private transient AdapterView<?> adapterView;
 
