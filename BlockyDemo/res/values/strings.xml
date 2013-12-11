@@ -10,7 +10,7 @@
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
     <!-- Control bricks -->
-    <string name="brick_when_started">When program started</string>
+    <string name="brick_when_started">When script started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
 
@@ -100,6 +100,7 @@
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
     <string name="formula_editor_random">Random</string>
+    <string name="formula_editor_marketplace">Marketplace</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
