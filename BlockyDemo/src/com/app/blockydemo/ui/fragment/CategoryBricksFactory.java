@@ -100,7 +100,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupControlCategoryList(Sprite sprite, Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(sprite, null));
-		controlBrickList.add(new WhenBrick(sprite, null));
+		//controlBrickList.add(new WhenBrick(sprite, null));
 
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
