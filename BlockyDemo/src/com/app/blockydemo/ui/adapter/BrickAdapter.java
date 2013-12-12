@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
@@ -47,12 +49,17 @@ import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.content.StartScript;
 import com.app.blockydemo.content.bricks.AllowedAfterDeadEndBrick;
 import com.app.blockydemo.content.bricks.Brick;
+import com.app.blockydemo.content.bricks.ChangeVariableBrick;
 import com.app.blockydemo.content.bricks.DeadEndBrick;
 import com.app.blockydemo.content.bricks.FormulaBrick;
+import com.app.blockydemo.content.bricks.MarketplaceBrick;
 import com.app.blockydemo.content.bricks.NestingBrick;
 import com.app.blockydemo.content.bricks.ScriptBrick;
+import com.app.blockydemo.content.bricks.WhenStartedBrick;
 import com.app.blockydemo.ui.ViewSwitchLock;
 import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
+import com.app.blockydemo.ui.dialogs.NewVariableDialog;
+import com.app.blockydemo.ui.dialogs.ScriptNameDialog;
 import com.app.blockydemo.ui.dragndrop.DragAndDropListView;
 import com.app.blockydemo.ui.dragndrop.DragAndDropListener;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
@@ -63,7 +70,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener,
-		ScriptActivityAdapterInterface {
+ScriptActivityAdapterInterface {
 
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private static final int ALPHA_FULL = 255;
@@ -345,25 +352,39 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		int scriptPosition = temp[0];
 		int brickPosition = temp[1];
+		Script newScript;
 
-		Script newScript = scriptBrick.initScript(currentSprite);
-		if (currentSprite.getNumberOfBricks() > 0) {
-			int addScriptTo = position == 0 ? 0 : scriptPosition + 1;
-			currentSprite.addScript(addScriptTo, newScript);
-		} else {
-			currentSprite.addScript(newScript);
-		}
+		if (scriptBrick.isInitialized()){
+			newScript = scriptBrick.initScript(currentSprite);	
+			if (currentSprite.getNumberOfBricks() > 0) {
+				int addScriptTo = position == 0 ? 0 : scriptPosition + 1;
+				currentSprite.addScript(addScriptTo, newScript);
+			} else {
+				currentSprite.addScript(newScript);
+			}
+		}else{
+			newScript = scriptBrick.initScript(currentSprite);
+			if (currentSprite.getNumberOfBricks() > 0) {
+				int addScriptTo = position == 0 ? 0 : scriptPosition + 1;
+				currentSprite.addScript(addScriptTo, newScript);
+			} else {
+				currentSprite.addScript(newScript);
+			}
 
-		Script previousScript = currentSprite.getScript(scriptPosition);
-		if (previousScript != null) {
-			Brick brick;
-			int size = previousScript.getBrickList().size();
-			for (int i = brickPosition; i < size; i++) {
-				brick = previousScript.getBrick(brickPosition);
-				previousScript.removeBrick(brick);
-				newScript.addBrick(brick);
+			Script previousScript = currentSprite.getScript(scriptPosition);
+			if (previousScript != null) {
+				Brick brick;
+				int size = previousScript.getBrickList().size();
+				for (int i = brickPosition; i < size; i++) {
+					brick = previousScript.getBrick(brickPosition);
+					previousScript.removeBrick(brick);
+					newScript.addBrick(brick);
+				}
 			}
 		}
+
+
+
 		ProjectManager.getInstance().setCurrentScript(newScript);
 	}
 
@@ -405,6 +426,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (brick instanceof NestingBrick) {
 			((NestingBrick) draggedBrick).initialize();
 			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts(true);
+			for (int i = 0; i < nestingBrickList.size(); i++) {
+				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
+					if (i < nestingBrickList.size() - 1) {
+						Log.w(TAG, "Adding a DeadEndBrick in the middle of the NestingBricks");
+					}
+					position = getPositionForDeadEndBrick(position);
+					temp = getScriptAndBrickIndexFromProject(position);
+					script.addBrick(temp[1], nestingBrickList.get(i));
+				} else {
+					script.addBrick(brickPosition + i, nestingBrickList.get(i));
+				}
+			}
+		}else if (brick instanceof ScriptBrick) {
+
+			List<Brick> nestingBrickList = ((ScriptBrick) draggedBrick).getAllNestingBrickParts(true);
 			for (int i = 0; i < nestingBrickList.size(); i++) {
 				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
 					if (i < nestingBrickList.size() - 1) {
@@ -823,6 +859,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
 			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 		} else {
+			items.add(context.getText(R.string.brick_context_dialog_edit_script_name));
 			items.add(context.getText(R.string.brick_context_dialog_delete_script));
 		}
 		if (brickList.get(itemPosition) instanceof FormulaBrick) {
@@ -871,6 +908,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
 								((FormulaBrick) brickList.get(itemPosition)).getFormula());
 					}
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_edit_script_name))) {
+					ScriptNameDialog dialog2 = new ScriptNameDialog(ProjectManager.getInstance().getCurrentScript());
+					dialog2.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(),
+							ScriptNameDialog.DIALOG_FRAGMENT_TAG);	
+					initBrickList();
+					notifyDataSetChanged();
+					notifyDataSetInvalidated();
 				}
 			}
 		});

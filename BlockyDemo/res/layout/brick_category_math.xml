@@ -26,7 +26,7 @@
 
     <TextView
         style="@style/BrickCategoryText.Lego"
-        android:text="@string/category_math" >
+        android:text="@string/category_marketplace" >
     </TextView>
 
 </LinearLayout>

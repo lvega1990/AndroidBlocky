@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 
 
-public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
+public abstract class MarketplaceBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,23 @@ public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterD
 
 	@Override
 	public abstract Brick clone();
+	
+	public boolean containsDeadEnd() {
+		for (Brick brick : getAllNestingBrickParts(false)) {
+			if (brick instanceof DeadEndBrick) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	public abstract boolean isInitialized();
+
+	public abstract void initialize();
+
+	public abstract boolean isDraggableOver(Brick brick);
+	
 	/**
 	 * 
 	 * @return List of NestingBricks in order of their appearance

@@ -24,6 +24,7 @@ package com.app.blockydemo.content;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.content.bricks.Brick;
 import com.app.blockydemo.content.bricks.IfLogicBeginBrick;
 import com.app.blockydemo.content.bricks.IfLogicElseBrick;
@@ -46,7 +47,8 @@ public abstract class Script implements Serializable {
 
 	private transient volatile boolean paused;
 	protected Sprite object;
-
+	protected String name;
+	
 	public Script() {
 	}
 
@@ -62,9 +64,44 @@ public abstract class Script implements Serializable {
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
 		this.object = sprite;
+		this.name = getNextName();
 		init();
 	}
 
+	private String getNextName() {
+		String value = "Script";
+		int pos = 0;
+		boolean cont = true;
+		while (cont){
+			cont = false;
+			for (Script script:ProjectManager.getInstance().getCurrentSprite().getScriptList()){
+				if (script.getName().equals(value)){
+					cont = true;
+					++pos;
+					value = "Script"+pos;
+				}
+			}
+			
+		}
+		return value;
+	}
+	public void setNextName() {
+		String value =String.copyValueOf(name.toCharArray());
+		int pos = 0;
+		boolean cont = true;
+		while (cont){
+			cont = false;
+			for (Script script:ProjectManager.getInstance().getCurrentSprite().getScriptList()){
+				if (script.getName().equals(value)){
+					cont = true;
+					++pos;
+					value = String.copyValueOf(name.toCharArray())+pos;
+				}
+			}
+			
+		}
+		name = value;
+	}
 	private void init() {
 		paused = false;
 	}
@@ -115,6 +152,14 @@ public abstract class Script implements Serializable {
 		return paused;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	public int getRequiredResources() {
 		int ressources = Brick.NO_RESOURCES;
 

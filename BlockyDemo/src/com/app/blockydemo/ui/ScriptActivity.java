@@ -28,11 +28,13 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
@@ -245,6 +247,8 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
+		Log.d("",  ProjectManager.getInstance().getCurrentSprite().getScriptList().toString());
+		Toast.makeText(this,  ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() + "--->"+ ProjectManager.getInstance().getCurrentSprite().getScriptList().toString() , Toast.LENGTH_SHORT).show(); 
 	}
 
 	@Override

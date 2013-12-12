@@ -39,20 +39,20 @@ import com.app.blockydemo.content.StartScript;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhenStartedBrick extends ScriptBrick {
+public class WhenStartedMarketplaceBrick extends MarketplaceBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
-
-
-	public WhenStartedBrick(Sprite sprite, Script script) {
+	
+	
+	public WhenStartedMarketplaceBrick(Sprite sprite, Script script) {
 		this.script = script;
 		this.sprite = sprite;
-
-
+		
+		
 	}
 
-	public WhenStartedBrick() {
+	public WhenStartedMarketplaceBrick() {
 
 	}
 
@@ -63,7 +63,7 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
+		WhenStartedMarketplaceBrick copyBrick = (WhenStartedMarketplaceBrick) clone();
 		copyBrick.sprite = sprite;
 		copyBrick.script = script;
 		return copyBrick;
@@ -78,7 +78,7 @@ public class WhenStartedBrick extends ScriptBrick {
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
 		setCheckboxView(R.id.brick_when_started_checkbox);
-
+		 
 		if (this.script != null){
 			((TextView) view.findViewById(R.id.brick_when_started_name)).setText(script.getName());	
 		}
@@ -117,9 +117,7 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		if (script != null)
-			script.setNextName();
-		return new WhenStartedBrick(getSprite(), script);
+		return new WhenStartedMarketplaceBrick(getSprite(), script);
 	}
 
 	@Override
@@ -155,6 +153,18 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public boolean isInitialized() {
 		return script != null;
+	}
+
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

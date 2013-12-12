@@ -271,9 +271,9 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 							showFormulaEditorListFragment(FormulaEditorListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
-						case R.id.formula_editor_keyboard_sensors:
-							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,
-									R.string.formula_editor_sensors);
+						case R.id.formula_editor_keyboard_scripts:
+							showFormulaEditorScriptListFragment(FormulaEditorScriptListFragment.SCRIPT_TAG,
+									R.string.formula_editor_scripts);
 							return true;
 						case R.id.formula_editor_keyboard_variables:
 							showFormulaEditorVariableListFragment(FormulaEditorVariableListFragment.VARIABLE_TAG,
@@ -497,6 +497,22 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		((FormulaEditorListFragment) fragment).showFragment(context);
 	}
 
+	private void showFormulaEditorScriptListFragment(String tag, int actionbarResId) {
+		FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+		Fragment fragment = fragmentManager.findFragmentByTag(tag);
+
+		if (fragment == null) {
+			fragment = new FormulaEditorScriptListFragment();
+			Bundle bundle = new Bundle();
+			bundle.putString(FormulaEditorScriptListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+					context.getString(actionbarResId));
+			bundle.putString(FormulaEditorScriptListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			fragment.setArguments(bundle);
+			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
+		}
+		((FormulaEditorScriptListFragment) fragment).showFragment(context);
+	}
+	
 	private void showFormulaEditorVariableListFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);

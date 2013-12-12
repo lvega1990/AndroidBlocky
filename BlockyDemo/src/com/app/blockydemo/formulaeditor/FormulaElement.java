@@ -36,7 +36,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, MARKETPLACE_CONDITION,MARKETPLACE_ACTION
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -78,47 +78,47 @@ public class FormulaElement implements Serializable {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		switch (type) {
-			case BRACKET:
-				internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
-				if (rightChild != null) {
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
-				internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
-				break;
-			case OPERATOR:
-				if (leftChild != null) {
-					internTokenList.addAll(leftChild.getInternTokenList());
-				}
-				internTokenList.add(new InternToken(InternTokenType.OPERATOR, this.value));
-				if (rightChild != null) {
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
-				break;
-			case FUNCTION:
-				internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, value));
-				boolean functionHasParameters = false;
-				if (leftChild != null) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-					functionHasParameters = true;
-					internTokenList.addAll(leftChild.getInternTokenList());
-				}
-				if (rightChild != null) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
-				if (functionHasParameters) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-				}
-				break;
-			case USER_VARIABLE:
-				internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, this.value));
-				break;
-			case NUMBER:
-				internTokenList.add(new InternToken(InternTokenType.NUMBER, this.value));
-				break;
-			case SENSOR:
-				internTokenList.add(new InternToken(InternTokenType.SENSOR, this.value));
-				break;
+		case BRACKET:
+			internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
+			if (rightChild != null) {
+				internTokenList.addAll(rightChild.getInternTokenList());
+			}
+			internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
+			break;
+		case OPERATOR:
+			if (leftChild != null) {
+				internTokenList.addAll(leftChild.getInternTokenList());
+			}
+			internTokenList.add(new InternToken(InternTokenType.OPERATOR, this.value));
+			if (rightChild != null) {
+				internTokenList.addAll(rightChild.getInternTokenList());
+			}
+			break;
+		case FUNCTION:
+			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, value));
+			boolean functionHasParameters = false;
+			if (leftChild != null) {
+				internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+				functionHasParameters = true;
+				internTokenList.addAll(leftChild.getInternTokenList());
+			}
+			if (rightChild != null) {
+				internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+				internTokenList.addAll(rightChild.getInternTokenList());
+			}
+			if (functionHasParameters) {
+				internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+			}
+			break;
+		case USER_VARIABLE:
+			internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, this.value));
+			break;
+		case NUMBER:
+			internTokenList.add(new InternToken(InternTokenType.NUMBER, this.value));
+			break;
+		case SENSOR:
+			internTokenList.add(new InternToken(InternTokenType.SENSOR, this.value));
+			break;
 		}
 		return internTokenList;
 	}
@@ -136,38 +136,46 @@ public class FormulaElement implements Serializable {
 		Double returnValue = 0d;
 
 		switch (type) {
-			case BRACKET:
-				returnValue = rightChild.interpretRecursive(sprite);
+		case BRACKET:
+			returnValue = rightChild.interpretRecursive(sprite);
+			break;
+		case NUMBER:
+			returnValue = Double.parseDouble(value);
+			break;
+		case OPERATOR:
+			Operators operator = Operators.getOperatorByValue(value);
+			returnValue = interpretOperator(operator, sprite);
+			break;
+		case FUNCTION:
+			Functions function = Functions.getFunctionByValue(value);
+			returnValue = interpretFunction(function, sprite);
+			break;
+		case SENSOR:
+			Sensors sensor = Sensors.getSensorByValue(value);
+			if (sensor.isObjectSensor) {
+				returnValue = interpretObjectSensor(sensor, sprite);
+			} else {
+				returnValue = SensorHandler.getSensorValue(sensor);
+			}
+			break;
+		case USER_VARIABLE:
+			UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
+			.getUserVariables();
+			UserVariable userVariable = userVariables.getUserVariable(value, sprite);
+			if (userVariable == null) {
+				returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 				break;
-			case NUMBER:
-				returnValue = Double.parseDouble(value);
-				break;
-			case OPERATOR:
-				Operators operator = Operators.getOperatorByValue(value);
-				returnValue = interpretOperator(operator, sprite);
-				break;
-			case FUNCTION:
-				Functions function = Functions.getFunctionByValue(value);
-				returnValue = interpretFunction(function, sprite);
-				break;
-			case SENSOR:
-				Sensors sensor = Sensors.getSensorByValue(value);
-				if (sensor.isObjectSensor) {
-					returnValue = interpretObjectSensor(sensor, sprite);
-				} else {
-					returnValue = SensorHandler.getSensorValue(sensor);
-				}
-				break;
-			case USER_VARIABLE:
-				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
-						.getUserVariables();
-				UserVariable userVariable = userVariables.getUserVariable(value, sprite);
-				if (userVariable == null) {
-					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
-					break;
-				}
-				returnValue = userVariable.getValue();
-				break;
+			}
+			returnValue = userVariable.getValue();
+			break;
+		case MARKETPLACE_ACTION:
+			returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
+			break;
+		case MARKETPLACE_CONDITION:
+			returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
+			break;
+		default:
+			break;
 
 		}
 
@@ -186,95 +194,95 @@ public class FormulaElement implements Serializable {
 		}
 
 		switch (function) {
-			case SIN:
-				return java.lang.Math.sin(Math.toRadians(left));
+		case SIN:
+			return java.lang.Math.sin(Math.toRadians(left));
 
-			case COS:
-				return java.lang.Math.cos(Math.toRadians(left));
+		case COS:
+			return java.lang.Math.cos(Math.toRadians(left));
 
-			case TAN:
-				return java.lang.Math.tan(Math.toRadians(left));
+		case TAN:
+			return java.lang.Math.tan(Math.toRadians(left));
 
-			case LN:
-				return java.lang.Math.log(left);
+		case LN:
+			return java.lang.Math.log(left);
 
-			case LOG:
-				return java.lang.Math.log10(left);
+		case LOG:
+			return java.lang.Math.log10(left);
 
-			case SQRT:
-				return java.lang.Math.sqrt(left);
+		case SQRT:
+			return java.lang.Math.sqrt(left);
 
-			case RAND:
-				right = rightChild.interpretRecursive(sprite);
-				Double minimum = java.lang.Math.min(left, right);
-				Double maximum = java.lang.Math.max(left, right);
+		case RAND:
+			right = rightChild.interpretRecursive(sprite);
+			Double minimum = java.lang.Math.min(left, right);
+			Double maximum = java.lang.Math.max(left, right);
 
-				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
+			Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
 
-				if (isInteger(minimum) && isInteger(maximum)
-						&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
-						&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
-					Log.i("info", "randomDouble: " + randomDouble);
+			if (isInteger(minimum) && isInteger(maximum)
+					&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
+					&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
+				Log.i("info", "randomDouble: " + randomDouble);
 
-					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
-						return Double.valueOf(randomDouble.intValue()) + 1;
-					} else {
-						return Double.valueOf(randomDouble.intValue());
-					}
-
+				if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
+					return Double.valueOf(randomDouble.intValue()) + 1;
 				} else {
-					return randomDouble;
+					return Double.valueOf(randomDouble.intValue());
 				}
 
-			case ABS:
-				return java.lang.Math.abs(left);
+			} else {
+				return randomDouble;
+			}
 
-			case ROUND:
-				return (double) java.lang.Math.round(left);
+		case ABS:
+			return java.lang.Math.abs(left);
 
-			case PI:
-				return java.lang.Math.PI;
+		case ROUND:
+			return (double) java.lang.Math.round(left);
 
-			case MOD:
-				double dividend = left;
-				double divisor = rightChild.interpretRecursive(sprite);
+		case PI:
+			return java.lang.Math.PI;
 
-				if (dividend == 0 || divisor == 0) {
-					return dividend;
+		case MOD:
+			double dividend = left;
+			double divisor = rightChild.interpretRecursive(sprite);
+
+			if (dividend == 0 || divisor == 0) {
+				return dividend;
+			}
+
+			if (divisor > 0) {
+				while (dividend < 0) {
+					dividend += java.lang.Math.abs(divisor);
 				}
-
-				if (divisor > 0) {
-					while (dividend < 0) {
-						dividend += java.lang.Math.abs(divisor);
-					}
-				} else {
-					if (dividend > 0) {
-						return (dividend % divisor) + divisor;
-					}
+			} else {
+				if (dividend > 0) {
+					return (dividend % divisor) + divisor;
 				}
+			}
 
-				return dividend % divisor;
+			return dividend % divisor;
 
-			case ARCSIN:
-				return java.lang.Math.toDegrees(Math.asin(left));
-			case ARCCOS:
-				return java.lang.Math.toDegrees(Math.acos(left));
-			case ARCTAN:
-				return java.lang.Math.toDegrees(Math.atan(left));
-			case EXP:
-				return java.lang.Math.exp(left);
-			case MAX:
-				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.max(left, right);
-			case MIN:
-				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.min(left, right);
+		case ARCSIN:
+			return java.lang.Math.toDegrees(Math.asin(left));
+		case ARCCOS:
+			return java.lang.Math.toDegrees(Math.acos(left));
+		case ARCTAN:
+			return java.lang.Math.toDegrees(Math.atan(left));
+		case EXP:
+			return java.lang.Math.exp(left);
+		case MAX:
+			right = rightChild.interpretRecursive(sprite);
+			return java.lang.Math.max(left, right);
+		case MIN:
+			right = rightChild.interpretRecursive(sprite);
+			return java.lang.Math.min(left, right);
 
-			case TRUE:
-				return 1.0;
+		case TRUE:
+			return 1.0;
 
-			case FALSE:
-				return 0.0;
+		case FALSE:
+			return 0.0;
 
 		}
 
@@ -288,42 +296,42 @@ public class FormulaElement implements Serializable {
 			Double right = rightChild.interpretRecursive(sprite);
 
 			switch (operator) {
-				case PLUS:
-					return left + right;
-				case MINUS:
-					return left - right;
-				case MULT:
-					return left * right;
-				case DIVIDE:
-					return left / right;
-				case POW:
-					return java.lang.Math.pow(left, right);
-				case EQUAL:
-					return left.equals(right) ? 1d : 0d; //TODO Double equality, may round first?
-				case NOT_EQUAL:
-					return left.equals(right) ? 0d : 1d;//TODO Double equality, may round first?
-				case GREATER_THAN:
-					return left.compareTo(right) > 0 ? 1d : 0d;
-				case GREATER_OR_EQUAL:
-					return left.compareTo(right) >= 0 ? 1d : 0d;
-				case SMALLER_THAN:
-					return left.compareTo(right) < 0 ? 1d : 0d;
-				case SMALLER_OR_EQUAL:
-					return left.compareTo(right) <= 0 ? 1d : 0d;
-				case LOGICAL_AND:
-					return (left * right) != 0d ? 1d : 0d;
-				case LOGICAL_OR:
-					return left != 0d || right != 0d ? 1d : 0d;
+			case PLUS:
+				return left + right;
+			case MINUS:
+				return left - right;
+			case MULT:
+				return left * right;
+			case DIVIDE:
+				return left / right;
+			case POW:
+				return java.lang.Math.pow(left, right);
+			case EQUAL:
+				return left.equals(right) ? 1d : 0d; //TODO Double equality, may round first?
+			case NOT_EQUAL:
+				return left.equals(right) ? 0d : 1d;//TODO Double equality, may round first?
+			case GREATER_THAN:
+				return left.compareTo(right) > 0 ? 1d : 0d;
+			case GREATER_OR_EQUAL:
+				return left.compareTo(right) >= 0 ? 1d : 0d;
+			case SMALLER_THAN:
+				return left.compareTo(right) < 0 ? 1d : 0d;
+			case SMALLER_OR_EQUAL:
+				return left.compareTo(right) <= 0 ? 1d : 0d;
+			case LOGICAL_AND:
+				return (left * right) != 0d ? 1d : 0d;
+			case LOGICAL_OR:
+				return left != 0d || right != 0d ? 1d : 0d;
 			}
 
 		} else {//unary operators
 			Double right = rightChild.interpretRecursive(sprite);
 
 			switch (operator) {
-				case MINUS:
-					return -right;
-				case LOGICAL_NOT:
-					return right == 0d ? 1d : 0d;
+			case MINUS:
+				return -right;
+			case LOGICAL_NOT:
+				return right == 0d ? 1d : 0d;
 			}
 
 		}
@@ -334,27 +342,43 @@ public class FormulaElement implements Serializable {
 	private Double interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Double returnValue = 0d;
 		switch (sensor) {
-			case OBJECT_BRIGHTNESS:
-				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
-				break;
-			case OBJECT_GHOSTEFFECT:
-				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
-				break;
-			case OBJECT_LAYER:
-				returnValue = (double) sprite.look.getZIndex();
-				break;
-			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
-				break;
-			case OBJECT_SIZE:
-				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();
-				break;
-			case OBJECT_X:
-				returnValue = (double) sprite.look.getXInUserInterfaceDimensionUnit();
-				break;
-			case OBJECT_Y:
-				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
-				break;
+		case OBJECT_BRIGHTNESS:
+			returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
+			break;
+		case OBJECT_GHOSTEFFECT:
+			returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
+			break;
+		case OBJECT_LAYER:
+			returnValue = (double) sprite.look.getZIndex();
+			break;
+		case OBJECT_ROTATION:
+			returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
+			break;
+		case OBJECT_SIZE:
+			returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();
+			break;
+		case OBJECT_X:
+			returnValue = (double) sprite.look.getXInUserInterfaceDimensionUnit();
+			break;
+		case OBJECT_Y:
+			returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
+			break;
+		case COMPASS_DIRECTION:
+			break;
+		case LOUDNESS:
+			break;
+		case X_ACCELERATION:
+			break;
+		case X_INCLINATION:
+			break;
+		case Y_ACCELERATION:
+			break;
+		case Y_INCLINATION:
+			break;
+		case Z_ACCELERATION:
+			break;
+		default:
+			break;
 		}
 		return returnValue;
 	}

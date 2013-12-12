@@ -233,4 +233,16 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
 	}
+
+	@Override
+	public boolean isInitialized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Brick> getAllNestingBrickParts(boolean sorted) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
