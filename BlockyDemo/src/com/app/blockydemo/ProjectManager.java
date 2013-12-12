@@ -108,6 +108,16 @@ public final class ProjectManager {
 		return false;
 	}
 
+	public boolean scriptExists(String scriptName) {
+		
+		for (Script script : currentSprite.getScriptList()) {
+			if (script.getName().equalsIgnoreCase(scriptName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int getCurrentSpritePosition() {
 		return project.getSpriteList().indexOf(currentSprite);
 	}

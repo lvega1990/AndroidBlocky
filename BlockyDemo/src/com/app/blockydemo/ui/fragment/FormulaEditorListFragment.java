@@ -49,7 +49,8 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	public static final String MATH_TAG = "mathFragment";
 	public static final String LOGIC_TAG = "logicFragment";
 	public static final String SENSOR_TAG = "sensorFragment";
-
+	public static final String SCRIPTS_TAG = "scriptsFragment";
+	
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 

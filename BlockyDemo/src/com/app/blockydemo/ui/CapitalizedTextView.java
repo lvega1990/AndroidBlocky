@@ -20,35 +20,31 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.app.blockydemo.content.bricks;
-
-import java.util.List;
-
-import com.app.blockydemo.content.Script;
-import com.app.blockydemo.content.Sprite;
+package com.app.blockydemo.ui;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
+import android.util.AttributeSet;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.TextView;
 
+import java.util.Locale;
 
-public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
+public class CapitalizedTextView extends TextView implements OnPreDrawListener {
 
-	private static final long serialVersionUID = 1L;
+	public CapitalizedTextView(Context context) {
+		super(context);
+	}
 
-	public abstract Script initScript(Sprite sprite);
+	public CapitalizedTextView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
+	public CapitalizedTextView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
 	}
 
 	@Override
-	public abstract Brick clone();
-	public abstract boolean isInitialized();
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<Brick> getAllNestingBrickParts(boolean sorted);
+	public void setText(CharSequence text, BufferType type) {
+		super.setText(text.toString().toUpperCase(Locale.getDefault()), type);
+	}
 }

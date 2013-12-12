@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,36 +20,27 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.app.blockydemo.content.bricks;
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-import java.util.List;
+    <com.app.blockydemo.ui.BrickLayout
+        android:id="@+id/brick_hide_layout"
+        style="@style/BrickContainer.Control.Big.IfCondition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-import com.app.blockydemo.content.Script;
-import com.app.blockydemo.content.Sprite;
+        <TextView
+            android:id="@+id/brick_hide_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_hide" />
+    </com.app.blockydemo.ui.BrickLayout>
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
-
-public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public abstract Script initScript(Sprite sprite);
-
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
-	}
-
-	@Override
-	public abstract Brick clone();
-	public abstract boolean isInitialized();
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<Brick> getAllNestingBrickParts(boolean sorted);
-}
+</LinearLayout>

@@ -130,10 +130,11 @@ public class BrickCategoryFragment extends ListFragment {
 		List<View> categories = new ArrayList<View>();
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
-
+		categories.add(inflater.inflate(R.layout.brick_category_math, null));
+		
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
-			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
+			categories.add(inflater.inflate(R.layout.brick_category_math, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

@@ -31,7 +31,7 @@
 
     <CheckBox
         android:id="@+id/brick_if_begin_checkbox"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
@@ -46,6 +46,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
+            android:padding="15dp"
             android:id="@+id/if_label"
             style="@style/BrickText.Multiple"
             android:text="@string/brick_if_begin" >
@@ -61,12 +62,6 @@
             android:id="@+id/brick_if_begin_prototype_text_view"
             style="@style/BrickPrototypeTextView" />
 
-        <TextView
-            android:id="@+id/if_label_second_part"
-            style="@style/BrickText.Multiple"
-            android:paddingLeft="5dip"
-            android:text="@string/brick_if_begin_second_part" >
-        </TextView>
     </com.app.blockydemo.ui.BrickLayout>
-
+    
 </LinearLayout>

@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,36 +20,29 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.app.blockydemo.content.bricks;
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog"
+    android:paddingBottom="0dp" >
 
-import java.util.List;
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin" >
 
-import com.app.blockydemo.content.Script;
-import com.app.blockydemo.content.Sprite;
+        <com.app.blockydemo.ui.CapitalizedTextView
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/variable_name" />
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
+        <View style="@style/DefaultDialog.Line" />
 
+        <EditText
+            android:id="@+id/dialog_editor_script_name_edit_text"
+            style="@style/DefaultDialog.EditText"
+            android:ems="10"
+            android:hint="@string/formula_editor_variable_dialog_hint"
+            android:inputType="text" />
+    </LinearLayout>
 
-public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public abstract Script initScript(Sprite sprite);
-
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		return getView(context, brickId, adapter);
-	}
-
-	@Override
-	public abstract Brick clone();
-	public abstract boolean isInitialized();
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<Brick> getAllNestingBrickParts(boolean sorted);
-}
+</ScrollView>

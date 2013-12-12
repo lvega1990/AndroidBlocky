@@ -83,14 +83,17 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	public DragAndDropListView(Context context) {
 		super(context);
+		setHorizontalScrollBarEnabled(true);
 	}
 
 	public DragAndDropListView(Context context, AttributeSet attributes) {
 		super(context, attributes);
+		setHorizontalScrollBarEnabled(true);
 	}
 
 	public DragAndDropListView(Context context, AttributeSet attributes, int defStyle) {
 		super(context, attributes, defStyle);
+		setHorizontalScrollBarEnabled(true);
 	}
 
 	public void setOnDragAndDropListener(DragAndDropListener listener) {

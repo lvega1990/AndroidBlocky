@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -72,6 +73,9 @@ public class WhenBrick extends ScriptBrick {
 
 		setCheckboxView(R.id.brick_when_checkbox);
 
+		if (this.whenScript != null){
+			((TextView) view.findViewById(R.id.brick_when_started_name)).setText(whenScript.getName());	
+		}
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*
 		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -169,5 +173,17 @@ public class WhenBrick extends ScriptBrick {
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
 
+	}
+
+	@Override
+	public boolean isInitialized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Brick> getAllNestingBrickParts(boolean sorted) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

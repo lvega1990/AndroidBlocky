@@ -193,7 +193,9 @@ public class Sprite implements Serializable, Cloneable {
 	public boolean removeScript(Script script) {
 		return scriptList.remove(script);
 	}
-
+	public List<Script> getScriptList() {
+		return scriptList;
+	}
 	public ArrayList<LookData> getLookDataList() {
 		return lookList;
 	}

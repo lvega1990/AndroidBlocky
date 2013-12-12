@@ -10,7 +10,7 @@
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
     <!-- Control bricks -->
-    <string name="brick_when_started">When program started</string>
+    <string name="brick_when_started">When script started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
 
@@ -98,8 +98,10 @@
     <string name="formula_editor_math">Math</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
+    <string name="formula_editor_scripts">Scripts</string>
     <string name="formula_editor_variables">Variables</string>
     <string name="formula_editor_random">Random</string>
+    <string name="formula_editor_marketplace">Marketplace</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
@@ -124,7 +126,7 @@
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
-
+	<string name="formula_editor_script_name">New Name</string>
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
@@ -161,6 +163,7 @@
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
+    <string name="brick_context_dialog_edit_script_name">Edit Script Name</string>
     <!--  -->
 
   <!-- Script fragment -->
@@ -189,6 +192,7 @@
     <string name="category_control">Control</string>
     <string name="category_variables">Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_marketplace">Marketplace</string>
     <!--  -->
    
    
@@ -252,6 +256,12 @@
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to X:</string>
     <!--  -->
+    
+    
+    <!-- Feature bricks -->
+    <string name="brick_action_feature">Execute</string>
+    <!--  -->
+    
     
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT move motor</string>

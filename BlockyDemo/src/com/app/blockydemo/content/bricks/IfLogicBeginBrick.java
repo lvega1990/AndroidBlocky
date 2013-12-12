@@ -148,10 +148,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 			background.setAlpha(alphaValue);
 
 			TextView ifLabel = (TextView) view.findViewById(R.id.if_label);
-			TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
+			//TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
 			TextView editX = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
+			//ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 			editX.getBackground().setAlpha(alphaValue);
 
