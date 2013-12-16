@@ -22,7 +22,6 @@
  */
 package com.app.blockydemo.content;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.content.bricks.Brick;
@@ -107,24 +106,6 @@ public abstract class Script implements Serializable {
 	}
 	private void init() {
 		paused = false;
-	}
-
-	public void run(SequenceAction sequence) {
-		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
-		sequenceList.add(sequence);
-		for (int i = 0; i < brickList.size(); i++) {
-			List<SequenceAction> actions = brickList.get(i).addActionToSequence(
-					sequenceList.get(sequenceList.size() - 1));
-			if (actions != null) {
-				for (SequenceAction action : actions) {
-					if (sequenceList.contains(action)) {
-						sequenceList.remove(action);
-					} else {
-						sequenceList.add(action);
-					}
-				}
-			}
-		}
 	}
 
 	public void addBrick(Brick brick) {

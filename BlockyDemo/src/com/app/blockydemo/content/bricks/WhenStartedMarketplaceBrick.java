@@ -29,8 +29,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
@@ -142,12 +140,6 @@ public class WhenStartedMarketplaceBrick extends MarketplaceBrick {
 		}
 
 		return view;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		return null;
-
 	}
 
 	@Override

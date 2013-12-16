@@ -23,15 +23,9 @@
 package com.app.blockydemo.content;
 
 import android.content.Context;
-import android.os.Build;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import com.app.blockydemo.R;
-import com.app.blockydemo.common.Constants;
-import com.app.blockydemo.common.MessageContainer;
 import com.app.blockydemo.common.ScreenValues;
-import com.app.blockydemo.content.bricks.Brick;
 import com.app.blockydemo.formulaeditor.UserVariablesContainer;
 import com.app.blockydemo.utils.Utils;
 
@@ -39,40 +33,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XStreamAlias("program")
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XStreamAlias("header")
-	private XmlHeader xmlHeader = new XmlHeader();
-	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	@XStreamAlias("variables")
 	private UserVariablesContainer userVariables = null;
-
+private String mName = null;
 	public Project(Context context, String name) {
-		xmlHeader.setProgramName(name);
-		xmlHeader.setDescription("");
 
 		ifLandscapeSwitchWidthAndHeight();
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
 		}
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
-		setDeviceData(context);
-
-		MessageContainer.clear();
-
 		userVariables = new UserVariablesContainer();
-
+		mName = name;
 		if (context == null) {
 			return;
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.look.setZIndex(0);
 		addSprite(background);
 	}
 
@@ -102,54 +82,6 @@ public class Project implements Serializable {
 		return spriteList;
 	}
 
-	public void setName(String name) {
-		xmlHeader.setProgramName(name);
-	}
-
-	public String getName() {
-		return xmlHeader.getProgramName();
-	}
-
-	public void setDescription(String description) {
-		xmlHeader.setDescription(description);
-	}
-
-	public String getDescription() {
-		return xmlHeader.getDescription();
-	}
-
-	public float getCatrobatLanguageVersion() {
-		return xmlHeader.getCatrobatLanguageVersion();
-	}
-
-	public XmlHeader getXmlHeader() {
-		return this.xmlHeader;
-	}
-
-	// this method should be removed by the nex refactoring
-	// (used only in tests)
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
-		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
-	}
-
-	public void setDeviceData(Context context) {
-		// TODO add other header values
-		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
-		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
-		xmlHeader.setDeviceName(Build.MODEL);
-
-		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
-		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
-
-		if (context == null) {
-			xmlHeader.setApplicationVersion("unknown");
-			xmlHeader.setApplicationName("unknown");
-		} else {
-			xmlHeader.setApplicationVersion(Utils.getVersionName(context));
-			xmlHeader.setApplicationName(context.getString(R.string.app_name));
-		}
-	}
 
 	// default constructor for XMLParser
 	public Project() {
@@ -159,30 +91,8 @@ public class Project implements Serializable {
 		return userVariables;
 	}
 
-	public void removeUnusedBroadcastMessages() {
-		List<String> usedMessages = new ArrayList<String>();
-		for (Sprite currentSprite : spriteList) {
-			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
-				Script currentScript = currentSprite.getScript(scriptIndex);
-				if (currentScript instanceof BroadcastMessage) {
-					addBroadcastMessage(((BroadcastMessage) currentScript).getBroadcastMessage(), usedMessages);
-				}
-
-				for (int brickIndex = 0; brickIndex < currentScript.getBrickList().size(); brickIndex++) {
-					Brick currentBrick = currentScript.getBrick(brickIndex);
-					if (currentBrick instanceof BroadcastMessage) {
-						addBroadcastMessage(((BroadcastMessage) currentBrick).getBroadcastMessage(), usedMessages);
-					}
-				}
-			}
-		}
-		MessageContainer.removeUnusedMessages(usedMessages);
+	public String getName() {
+		return mName;
 	}
 
-	private void addBroadcastMessage(String broadcastMessageToAdd, List<String> broadcastMessages) {
-		if (broadcastMessageToAdd != null && !broadcastMessageToAdd.isEmpty()
-				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
-			broadcastMessages.add(broadcastMessageToAdd);
-		}
-	}
 }

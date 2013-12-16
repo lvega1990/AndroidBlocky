@@ -32,14 +32,11 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
@@ -180,13 +177,6 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_if_end_if, null);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
-		returnActionList.add(sequence);
-		return returnActionList;
 	}
 
 	@Override

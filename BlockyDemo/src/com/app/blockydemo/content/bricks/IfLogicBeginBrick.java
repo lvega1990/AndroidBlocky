@@ -32,19 +32,15 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.common.BrickValues;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.actions.ExtendedActions;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, FormulaBrick {
@@ -217,20 +213,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 		} else {
 			return true;
 		}
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		SequenceAction ifAction = ExtendedActions.sequence();
-		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
-		sequence.addAction(action);
-
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
-		returnActionList.add(elseAction);
-		returnActionList.add(ifAction);
-
-		return returnActionList;
 	}
 
 	@Override

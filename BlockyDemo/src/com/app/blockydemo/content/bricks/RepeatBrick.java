@@ -29,18 +29,12 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.actions.ExtendedActions;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
 import com.app.blockydemo.utils.Utils;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
@@ -170,15 +164,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 		FormulaEditorFragment.showFragment(view, this, timesToRepeat);
 	}
 
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(sprite, timesToRepeat, repeatSequence);
-		sequence.addAction(action);
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
-		returnActionList.add(repeatSequence);
-		return returnActionList;
-	}
 	@Override
 	public String getScript() {
 		return " for (var count = 0; count < "+timesToRepeat.getDisplayString(null)+"; count++) { \n";

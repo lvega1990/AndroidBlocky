@@ -27,13 +27,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.ui.adapter.BrickAdapter;
-
-import java.util.List;
 
 public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -128,11 +124,6 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return null;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		return null;
 	}
 

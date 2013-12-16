@@ -26,10 +26,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Script;
@@ -144,12 +141,6 @@ public class WhenStartedBrick extends ScriptBrick {
 		}
 
 		return view;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		return null;
-
 	}
 
 	@Override

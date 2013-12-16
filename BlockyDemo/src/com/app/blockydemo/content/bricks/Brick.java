@@ -27,14 +27,12 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
-import java.util.List;
 
 public interface Brick extends Serializable {
 
@@ -45,8 +43,6 @@ public interface Brick extends Serializable {
 	int BLUETOOTH_LEGO_NXT = 0x4;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
-
-	List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
 	Sprite getSprite();
 

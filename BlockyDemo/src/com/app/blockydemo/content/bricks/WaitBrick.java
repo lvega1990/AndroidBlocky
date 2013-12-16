@@ -31,17 +31,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.actions.ExtendedActions;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
 import com.app.blockydemo.utils.Utils;
-
-import java.util.List;
 
 public class WaitBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
@@ -179,11 +175,5 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, timeToWaitInSeconds);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(sprite, timeToWaitInSeconds));
-		return null;
 	}
 }

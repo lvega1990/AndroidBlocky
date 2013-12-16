@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Script;
@@ -167,12 +166,6 @@ public class WhenBrick extends ScriptBrick {
 		}
 
 		return whenScript;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		return null;
-
 	}
 
 	@Override

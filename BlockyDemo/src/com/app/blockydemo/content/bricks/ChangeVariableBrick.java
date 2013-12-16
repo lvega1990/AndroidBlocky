@@ -38,14 +38,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Project;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.actions.ExtendedActions;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.formulaeditor.UserVariable;
 import com.app.blockydemo.ui.adapter.UserVariableAdapter;
@@ -53,8 +51,6 @@ import com.app.blockydemo.ui.adapter.UserVariableAdapterWrapper;
 import com.app.blockydemo.ui.dialogs.NewVariableDialog;
 import com.app.blockydemo.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
-
-import java.util.List;
 
 public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener,
 		FormulaBrick {
@@ -237,12 +233,6 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, variableFormula);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeVariable(sprite, variableFormula, userVariable));
-		return null;
 	}
 
 	@Override

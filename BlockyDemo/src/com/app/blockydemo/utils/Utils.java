@@ -29,12 +29,7 @@
 
 package com.app.blockydemo.utils;
 
-import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -52,17 +47,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-
 import com.app.blockydemo.ProjectManager;
-import com.app.blockydemo.R;
 import com.app.blockydemo.common.Constants;
-import com.app.blockydemo.common.LookData;
 import com.app.blockydemo.common.ScreenValues;
-import com.app.blockydemo.common.SoundInfo;
 import com.app.blockydemo.content.Project;
 
 import java.io.File;
@@ -70,8 +57,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public final class Utils {
@@ -312,18 +297,6 @@ public final class Utils {
 		return newTitle;
 	}
 
-	public static Pixmap getPixmapFromFile(File imageFile) {
-		Pixmap pixmap = null;
-		try {
-			GdxNativesLoader.load();
-			pixmap = new Pixmap(new FileHandle(imageFile));
-		} catch (GdxRuntimeException e) {
-			return null;
-		} catch (Exception e1) {
-			return null;
-		}
-		return pixmap;
-	}
 
 	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
 	}

@@ -22,15 +22,7 @@
  */
 package com.app.blockydemo.content;
 
-import com.app.blockydemo.common.LookData;
-import com.app.blockydemo.common.SoundInfo;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-import com.app.blockydemo.content.actions.ExtendedActions;
 import com.app.blockydemo.content.bricks.Brick;
-import com.app.blockydemo.formulaeditor.UserVariable;
-import com.app.blockydemo.formulaeditor.UserVariablesContainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,39 +32,21 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
-	private ArrayList<LookData> lookList;
-	private ArrayList<SoundInfo> soundList;
-	public transient Look look;
 
 	public transient boolean isPaused;
 
 
 	private void init() {
-		look = new Look(this);
 		isPaused = false;
-		if (soundList == null) {
-			soundList = new ArrayList<SoundInfo>();
-		}
-		if (lookList == null) {
-			lookList = new ArrayList<LookData>();
-		}
 		if (scriptList == null) {
 			scriptList = new ArrayList<Script>();
 		}
 	}
 
-	public void resetSprite() {
-		look = new Look(this);
-		for (LookData lookData : lookList) {
-			lookData.resetLookData();
-		}
-	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		lookList = new ArrayList<LookData>();
-		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
 
@@ -80,50 +54,6 @@ public class Sprite implements Serializable, Cloneable {
 
 	}
 
-	public void createStartScriptActionSequence() {
-		for (Script s : scriptList) {
-			if (s instanceof StartScript) {
-				look.addAction(createActionSequence(s));
-			}
-			if (s instanceof BroadcastScript) {
-				BroadcastScript script = (BroadcastScript) s;
-				SequenceAction action = createBroadcastScriptActionSequence(script);
-				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
-
-			}
-		}
-	}
-
-
-	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
-		for (Script s : scriptList) {
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					SequenceAction sequence = createActionSequence(s);
-					whenParallelAction.addAction(sequence);
-				}
-			}
-		}
-		look.setWhenParallelAction(whenParallelAction);
-		look.addAction(whenParallelAction);
-	}
-
-	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {
-		return createActionSequence(script);
-	}
-
-	private SequenceAction createActionSequence(Script s) {
-		SequenceAction sequence = ExtendedActions.sequence();
-		s.run(sequence);
-		return sequence;
-	}
-
-	public void startScriptBroadcast(Script s, boolean overload) {
-		SequenceAction sequence = ExtendedActions.sequence();
-		s.run(sequence);
-		look.addAction(sequence);
-	}
 
 	public void pause() {
 		for (Script s : scriptList) {
@@ -196,22 +126,6 @@ public class Sprite implements Serializable, Cloneable {
 	public List<Script> getScriptList() {
 		return scriptList;
 	}
-	public ArrayList<LookData> getLookDataList() {
-		return lookList;
-	}
-
-	public void setLookDataList(ArrayList<LookData> list) {
-		lookList = list;
-	}
-
-	public ArrayList<SoundInfo> getSoundList() {
-		return soundList;
-	}
-
-	public void setSoundList(ArrayList<SoundInfo> list) {
-		soundList = list;
-	}
-
 	public int getRequiredResources() {
 		int ressources = Brick.NO_RESOURCES;
 

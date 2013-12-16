@@ -30,15 +30,9 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.app.blockydemo.R;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.actions.ExtendedActions;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
@@ -114,15 +108,5 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		SequenceAction foreverSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.forever(sprite, foreverSequence);
-		sequence.addAction(action);
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
-		returnActionList.add(foreverSequence);
-		return returnActionList;
 	}
 }

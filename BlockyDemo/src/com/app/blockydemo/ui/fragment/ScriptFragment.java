@@ -61,7 +61,6 @@ import com.app.blockydemo.ui.ViewSwitchLock;
 import com.app.blockydemo.ui.adapter.BrickAdapter;
 import com.app.blockydemo.ui.adapter.BrickAdapter.OnBrickCheckedListener;
 import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
-import com.app.blockydemo.ui.dialogs.DeleteLookDialog;
 import com.app.blockydemo.ui.dragndrop.DragAndDropListView;
 import com.app.blockydemo.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import com.app.blockydemo.utils.Utils;
@@ -157,9 +156,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
-		}
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
 
@@ -312,9 +308,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	protected void showDeleteDialog() {
-
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private class BrickListChangedReceiver extends BroadcastReceiver {

@@ -24,7 +24,6 @@ package com.app.blockydemo.formulaeditor;
 
 import android.content.Context;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.content.Sprite;
@@ -40,9 +39,7 @@ import java.util.Map;
 public class UserVariablesContainer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;
-	@XStreamAlias("objectVariableList")
 	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	public UserVariablesContainer() {
