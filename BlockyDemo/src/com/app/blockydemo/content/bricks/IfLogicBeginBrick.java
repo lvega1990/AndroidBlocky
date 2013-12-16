@@ -243,5 +243,9 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-
+	
+	@Override
+	public String getScript() {
+		return "if ("+ifCondition.getDisplayString(null).replace("=", "==")+") {\n";
+	}
 }

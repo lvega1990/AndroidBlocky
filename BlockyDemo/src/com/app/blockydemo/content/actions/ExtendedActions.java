@@ -31,7 +31,6 @@ import com.app.blockydemo.common.SoundInfo;
 import com.app.blockydemo.content.BroadcastEvent;
 import com.app.blockydemo.content.BroadcastEvent.BroadcastType;
 import com.app.blockydemo.content.Sprite;
-import com.app.blockydemo.content.bricks.SpeakBrick;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.formulaeditor.UserVariable;
 
@@ -276,11 +275,6 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
-		SpeakAction action = action(SpeakAction.class);
-		action.setText(text);
-		return action;
-	}
 
 	public static StopAllSoundsAction stopAllSounds() {
 		return action(StopAllSoundsAction.class);

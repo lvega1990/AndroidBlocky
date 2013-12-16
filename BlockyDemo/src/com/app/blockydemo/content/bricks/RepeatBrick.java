@@ -179,4 +179,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 		returnActionList.add(repeatSequence);
 		return returnActionList;
 	}
+	@Override
+	public String getScript() {
+		return " for (var count = 0; count < "+timesToRepeat.getDisplayString(null)+"; count++) { \n";
+	}
 }

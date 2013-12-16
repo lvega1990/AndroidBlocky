@@ -38,7 +38,9 @@ import android.widget.Toast;
 
 import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
+import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
+import com.app.blockydemo.content.bricks.Brick;
 import com.app.blockydemo.formulaeditor.SensorHandler;
 import com.app.blockydemo.ui.adapter.BrickAdapter;
 import com.app.blockydemo.ui.adapter.ScriptActivityAdapterInterface;
@@ -249,6 +251,16 @@ public class ScriptActivity extends BaseActivity {
 	public void handlePlayButton(View view) {
 		Log.d("",  ProjectManager.getInstance().getCurrentSprite().getScriptList().toString());
 		Toast.makeText(this,  ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() + "--->"+ ProjectManager.getInstance().getCurrentSprite().getScriptList().toString() , Toast.LENGTH_SHORT).show(); 
+		for (Script script:ProjectManager.getInstance().getCurrentSprite().getScriptList()){
+			int count =1;
+			
+			for (Brick brick :script.getBrickList()){
+				Log.d(""+count,brick.getScript());
+				count++;
+	
+			}
+		}
+		
 	}
 
 	@Override

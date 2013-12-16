@@ -200,5 +200,8 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
-
+	@Override
+	public String getScript() {
+		return "}\n";
+	}
 }

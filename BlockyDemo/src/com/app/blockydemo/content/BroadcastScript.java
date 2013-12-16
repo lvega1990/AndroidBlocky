@@ -24,7 +24,6 @@ package com.app.blockydemo.content;
 
 
 import com.app.blockydemo.content.bricks.Brick;
-import com.app.blockydemo.content.bricks.BroadcastReceiverBrick;
 import com.app.blockydemo.content.bricks.IfLogicEndBrick;
 import com.app.blockydemo.content.bricks.LoopEndBrick;
 import com.app.blockydemo.content.bricks.ScriptBrick;
@@ -45,10 +44,6 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new BroadcastReceiverBrick(object, this);
-		}
-
 		return brick;
 	}
 

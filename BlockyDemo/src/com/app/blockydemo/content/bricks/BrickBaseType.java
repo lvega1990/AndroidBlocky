@@ -141,4 +141,10 @@ public class BrickBaseType implements Brick {
 		return null;
 	}
 
+	@Override
+	public String getScript() {
+		return null;
+	}
+
+
 }

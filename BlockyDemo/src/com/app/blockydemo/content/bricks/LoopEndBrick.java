@@ -191,4 +191,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		returnActionList.add(sequence);
 		return returnActionList;
 	}
+	@Override
+	public String getScript() {
+		return "}";
+	}
 }

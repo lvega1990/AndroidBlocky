@@ -24,70 +24,25 @@ package com.app.blockydemo.ui.fragment;
 
 import android.content.Context;
 
-import com.app.blockydemo.ProjectManager;
 import com.app.blockydemo.R;
 import com.app.blockydemo.common.BrickValues;
-import com.app.blockydemo.common.MessageContainer;
 import com.app.blockydemo.content.Script;
 import com.app.blockydemo.content.Sprite;
 import com.app.blockydemo.content.StartScript;
-import com.app.blockydemo.content.WhenScript;
 import com.app.blockydemo.content.bricks.Brick;
-import com.app.blockydemo.content.bricks.BroadcastBrick;
-import com.app.blockydemo.content.bricks.BroadcastReceiverBrick;
-import com.app.blockydemo.content.bricks.BroadcastWaitBrick;
-import com.app.blockydemo.content.bricks.ChangeBrightnessByNBrick;
-import com.app.blockydemo.content.bricks.ChangeGhostEffectByNBrick;
-import com.app.blockydemo.content.bricks.ChangeSizeByNBrick;
 import com.app.blockydemo.content.bricks.ChangeVariableBrick;
-import com.app.blockydemo.content.bricks.ChangeVolumeByNBrick;
-import com.app.blockydemo.content.bricks.ChangeXByNBrick;
-import com.app.blockydemo.content.bricks.ChangeYByNBrick;
-import com.app.blockydemo.content.bricks.ClearGraphicEffectBrick;
-import com.app.blockydemo.content.bricks.ComeToFrontBrick;
 import com.app.blockydemo.content.bricks.ExecuteActionBrick;
 import com.app.blockydemo.content.bricks.ForeverBrick;
-import com.app.blockydemo.content.bricks.GlideToBrick;
-import com.app.blockydemo.content.bricks.GoNStepsBackBrick;
-import com.app.blockydemo.content.bricks.HideBrick;
 import com.app.blockydemo.content.bricks.IfLogicBeginBrick;
 import com.app.blockydemo.content.bricks.IfLogicElseBrick;
 import com.app.blockydemo.content.bricks.IfLogicEndBrick;
-import com.app.blockydemo.content.bricks.IfOnEdgeBounceBrick;
-import com.app.blockydemo.content.bricks.LegoNxtMotorActionBrick;
-import com.app.blockydemo.content.bricks.LegoNxtMotorStopBrick;
-import com.app.blockydemo.content.bricks.LegoNxtMotorTurnAngleBrick;
-import com.app.blockydemo.content.bricks.LegoNxtPlayToneBrick;
-import com.app.blockydemo.content.bricks.MoveNStepsBrick;
-import com.app.blockydemo.content.bricks.NextLookBrick;
-import com.app.blockydemo.content.bricks.NoteBrick;
-import com.app.blockydemo.content.bricks.PlaceAtBrick;
-import com.app.blockydemo.content.bricks.PointInDirectionBrick;
-import com.app.blockydemo.content.bricks.ScriptBrick;
-import com.app.blockydemo.content.bricks.PointInDirectionBrick.Direction;
-import com.app.blockydemo.content.bricks.PointToBrick;
 import com.app.blockydemo.content.bricks.RepeatBrick;
-import com.app.blockydemo.content.bricks.SetBrightnessBrick;
-import com.app.blockydemo.content.bricks.SetGhostEffectBrick;
-import com.app.blockydemo.content.bricks.SetSizeToBrick;
 import com.app.blockydemo.content.bricks.SetVariableBrick;
-import com.app.blockydemo.content.bricks.SetVolumeToBrick;
-import com.app.blockydemo.content.bricks.SetXBrick;
-import com.app.blockydemo.content.bricks.SetYBrick;
-import com.app.blockydemo.content.bricks.ShowBrick;
-import com.app.blockydemo.content.bricks.SpeakBrick;
-import com.app.blockydemo.content.bricks.StopAllSoundsBrick;
-import com.app.blockydemo.content.bricks.TurnLeftBrick;
-import com.app.blockydemo.content.bricks.TurnRightBrick;
-import com.app.blockydemo.content.bricks.WaitBrick;
-import com.app.blockydemo.content.bricks.WhenBrick;
 import com.app.blockydemo.content.bricks.WhenStartedBrick;
-import com.app.blockydemo.content.bricks.WhenStartedMarketplaceBrick;
 import com.app.blockydemo.formulaeditor.Formula;
 import com.app.blockydemo.formulaeditor.FormulaElement;
 import com.app.blockydemo.formulaeditor.UserVariable;
 import com.app.blockydemo.formulaeditor.FormulaElement.ElementType;
-import com.app.blockydemo.formulaeditor.Operators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,38 +102,6 @@ public class CategoryBricksFactory {
 		return scriptBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList(Sprite sprite, Context context) {
-		List<Brick> soundBrickList = new ArrayList<Brick>();
-		soundBrickList.add(new StopAllSoundsBrick(sprite));
-		soundBrickList.add(new SetVolumeToBrick(sprite, BrickValues.SET_VOLUME_TO));
-
-		// workaround to set a negative default value for a Brick
-		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
-		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-						null));
-		soundBrickList.add(new ChangeVolumeByNBrick(sprite, new Formula(defaultValueChangeVolumeBy)));
-
-		soundBrickList.add(new SpeakBrick(sprite, context.getString(R.string.brick_speak_default_value)));
-
-		return soundBrickList;
-	}
-
-	private List<Brick> setupLooksCategoryList(Sprite sprite) {
-		List<Brick> looksBrickList = new ArrayList<Brick>();
-		looksBrickList.add(new NextLookBrick(sprite));
-		looksBrickList.add(new SetSizeToBrick(sprite, BrickValues.SET_SIZE_TO));
-		looksBrickList.add(new ChangeSizeByNBrick(sprite, BrickValues.CHANGE_SIZE_BY));
-		looksBrickList.add(new HideBrick(sprite));
-		looksBrickList.add(new ShowBrick(sprite));
-		looksBrickList.add(new SetGhostEffectBrick(sprite, BrickValues.SET_GHOST_EFFECT));
-		looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, BrickValues.CHANGE_GHOST_EFFECT));
-		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
-		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
-		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-
-		return looksBrickList;
-	}
 
 	private List<Brick> setupVariablesCategoryList(Sprite sprite) {
 		List<Brick> userVariablesBrickList = new ArrayList<Brick>();
@@ -187,22 +110,4 @@ public class CategoryBricksFactory {
 		return userVariablesBrickList;
 	}
 
-	private List<Brick> setupLegoNxtCategoryList(Sprite sprite) {
-		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
-		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
-				BrickValues.LEGO_ANGLE));
-		legoNXTBrickList.add(new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A));
-		legoNXTBrickList.add(new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A,
-				BrickValues.LEGO_SPEED));
-		legoNXTBrickList.add(new LegoNxtPlayToneBrick(sprite, BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
-
-		return legoNXTBrickList;
-	}
-
-	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
-	}
 }

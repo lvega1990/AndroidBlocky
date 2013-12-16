@@ -107,4 +107,8 @@ public abstract class LoopBeginBrick extends NestingBrick {
 		return copy;
 	}
 
+	@Override
+	public String getScript() {
+		return "while (true) {";
+	}
 }

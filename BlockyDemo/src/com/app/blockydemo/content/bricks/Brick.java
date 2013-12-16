@@ -78,4 +78,6 @@ public interface Brick extends Serializable {
 	View getViewWithAlpha(int alphaValue);
 
 	void setAnimationState(boolean animationState);
+	
+	String getScript();
 }

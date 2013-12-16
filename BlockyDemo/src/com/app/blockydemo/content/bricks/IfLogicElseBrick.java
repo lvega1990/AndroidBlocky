@@ -206,5 +206,8 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-
+	@Override
+	public String getScript() {
+		return "}else{\n";
+	}
 }
