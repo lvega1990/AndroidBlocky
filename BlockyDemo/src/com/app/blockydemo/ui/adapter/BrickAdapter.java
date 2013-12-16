@@ -22,6 +22,11 @@
  */
 package com.app.blockydemo.ui.adapter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,6 +61,7 @@ import com.app.blockydemo.content.bricks.MarketplaceBrick;
 import com.app.blockydemo.content.bricks.NestingBrick;
 import com.app.blockydemo.content.bricks.ScriptBrick;
 import com.app.blockydemo.content.bricks.WhenStartedBrick;
+import com.app.blockydemo.json.JsonConstructor;
 import com.app.blockydemo.ui.ViewSwitchLock;
 import com.app.blockydemo.ui.dialogs.CustomAlertDialogBuilder;
 import com.app.blockydemo.ui.dialogs.NewVariableDialog;
@@ -63,11 +69,6 @@ import com.app.blockydemo.ui.dialogs.ScriptNameDialog;
 import com.app.blockydemo.ui.dragndrop.DragAndDropListView;
 import com.app.blockydemo.ui.dragndrop.DragAndDropListener;
 import com.app.blockydemo.ui.fragment.FormulaEditorFragment;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener,
 ScriptActivityAdapterInterface {
@@ -125,15 +126,18 @@ ScriptActivityAdapterInterface {
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 		initBrickList();
 	}
+	
+	private JsonConstructor json = new JsonConstructor();
 
 	public void initBrickList() {
 		brickList = new ArrayList<Brick>();
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-
+		
 		int numberOfScripts = sprite.getNumberOfScripts();
 		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
 			Script script = sprite.getScript(scriptPosition);
+
 			brickList.add(script.getScriptBrick());
 			script.getScriptBrick().setBrickAdapter(this);
 			for (Brick brick : script.getBrickList()) {
@@ -141,6 +145,8 @@ ScriptActivityAdapterInterface {
 				brick.setBrickAdapter(this);
 			}
 		}
+		
+		Log.d("Json", json.generateJson().toString());
 	}
 
 	public boolean isActionMode() {

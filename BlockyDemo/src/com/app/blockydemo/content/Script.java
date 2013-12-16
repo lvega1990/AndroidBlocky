@@ -38,6 +38,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -142,6 +145,26 @@ public abstract class Script implements Serializable {
 
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
+	}
+	
+	public JSONObject getBrickListJson () {
+		JSONObject json = new JSONObject();
+		
+		for (int i = 0; i < brickList.size(); i++) {
+			try
+            {
+				JSONObject brickjson = new JSONObject();
+				brickjson.put("position", i);
+				
+				json.put(brickList.get(i).getClass().getName(), brickjson);
+            }
+            catch (JSONException e)
+            {
+	            e.printStackTrace();
+            }
+		}
+		
+		return json;
 	}
 
 	public void setPaused(boolean paused) {
